@@ -74,10 +74,11 @@ export const hasScrollbarGutter = _hasScrollbarGutter;
 export let supportsWebCodecsH264Decode = false;
 
 async function _checkWebCodecsH264DecodeSupport() {
-    if (!('VideoDecoder' in window)) {
+    const { VideoDecoder } = window;
+    if (typeof VideoDecoder !== 'function' ||
+        typeof VideoDecoder.isConfigSupported !== 'function') {
         return false;
     }
-
     // We'll need to make do with some placeholders here
     const config = {
         codec: 'avc1.42401f',
